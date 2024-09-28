@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Moodify</title>
+</head>
+<body>
+    <div id="app">
+        <h1>Moodify</h1>
+        <div id="mood-assessment">
+            <h2>How are you feeling today?</h2>
+            <label>Energy Level:</label>
+            <input type="range" min="0" max="10" value="5" id="energy-slider">
+            <label>Stress Level:</label>
+            <input type="range" min="0" max="10" value="5" id="stress-slider">
+            <button id="submit-btn">Get Playlist</button>
+        </div>
+        <div id="playlist-results"></div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
