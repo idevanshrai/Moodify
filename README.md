@@ -49,9 +49,6 @@ This project demonstrates how to create a web-based application that generates a
 
 Contributions are welcome! Fork the repository, make your changes, and submit a pull request.
 
-## License:
-This project is licensed under the MIT License.
-
 ## Author:
 Devansh Rai
 
