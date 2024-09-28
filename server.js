@@ -1,15 +1,10 @@
 const express = require('express');
 const cors = require('cors');
-const axios = require('axios');
 const SpotifyWebApi = require('spotify-web-api-node');
 require('dotenv').config();
 
 const app = express();
 app.use(cors());
-
-
-console.log('CLIENT_ID:', process.env.SPOTIFY_CLIENT_ID);
-console.log('CLIENT_SECRET:', process.env.SPOTIFY_CLIENT_SECRET);
 
 // Set up Spotify API credentials
 const spotifyApi = new SpotifyWebApi({
@@ -17,47 +12,85 @@ const spotifyApi = new SpotifyWebApi({
     clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
 });
 
-app.get('/playlist', async (req, res) => {
-    const energy = req.query.energy;
-    const stress = req.query.stress;
+// Function to authenticate with Spotify API
+const authenticateSpotify = async () => {
+    try {
+        const data = await spotifyApi.clientCredentialsGrant();
+        spotifyApi.setAccessToken(data.body['access_token']);
+        console.log('Successfully authenticated with Spotify API');
+    } catch (error) {
+        console.error('Failed to authenticate with Spotify API:', error);
+    }
+};
 
-    // Use energy and stress levels to determine the mood
-    const moodKeyword = getMoodKeyword(energy, stress);
-    const language = 'en'; // Default language for now
+// Initial authentication
+authenticateSpotify();
+
+// Middleware to check and refresh token if expired
+app.use(async (req, res, next) => {
+    if (!spotifyApi.getAccessToken()) {
+        console.log('Access token expired. Refreshing...');
+        await authenticateSpotify();
+    }
+    next();
+});
+
+// Main playlist route
+app.get('/playlist', async (req, res) => {
+    console.log("Received request with parameters:", req.query);
+
+    const {
+        energy,
+        stress,
+        intensity,
+        emotionalSpectrum,
+        focus,
+        social,
+        musicPreference,
+        weather,
+        timeOfDay,
+        emotionalBalance
+    } = req.query;
+
+    const moodKeyword = getMoodKeyword(energy, stress, intensity, emotionalSpectrum, weather, timeOfDay);
+    console.log("Generated mood keyword:", moodKeyword);
 
     try {
-        // Authenticate with Spotify API
-        const tokenResponse = await spotifyApi.clientCredentialsGrant();
-        spotifyApi.setAccessToken(tokenResponse.body['access_token']);
-
-        // Get playlist based on mood and language
-        const playlistLink = await getSpotifyPlaylist(moodKeyword, language);
+        const playlistLink = await getSpotifyPlaylist(moodKeyword);
         res.json({ playlistLink });
     } catch (error) {
-        console.error('Spotify API error:', error);
+        console.error("Error fetching playlist:", error.message);
         res.status(500).json({ error: 'Failed to fetch playlist.' });
     }
 });
 
-function getMoodKeyword(energy, stress) {
-    // Define mood based on energy and stress levels
+// Determine mood keyword based on input values
+function getMoodKeyword(energy, stress, intensity, emotionalSpectrum, weather, timeOfDay) {
     if (energy > 7 && stress < 3) {
         return 'happy';
     } else if (energy < 4 && stress > 7) {
         return 'calm';
+    } else if (weather === 'high' && emotionalSpectrum > 7) {
+        return 'excited';
+    } else if (timeOfDay === 'evening' && emotionalBalance < 5) {
+        return 'relaxed';
     } else {
         return 'neutral';
     }
 }
 
-async function getSpotifyPlaylist(mood, language) {
-    // Search for playlists on Spotify based on mood and language
+// Fetch Spotify playlist based on mood
+async function getSpotifyPlaylist(mood) {
     try {
         const searchResponse = await spotifyApi.searchPlaylists(mood);
         const playlist = searchResponse.body.playlists.items[0];
-        return playlist.external_urls.spotify; // Return the Spotify playlist link
+        if (playlist) {
+            return playlist.external_urls.spotify; // Return the Spotify playlist link
+        } else {
+            throw new Error('No playlist found');
+        }
     } catch (error) {
-        throw new Error('Error fetching playlist from Spotify');
+        throw new Error('Error fetching playlist from Spotify: ' + error.message);
     }
 }
 
@@ -65,25 +98,3 @@ async function getSpotifyPlaylist(mood, language) {
 app.listen(5500, () => {
     console.log('Server is running on port 5500');
 });
-
-app.get('/playlist', async (req, res) => {
-  const energy = req.query.energy;
-  const stress = req.query.stress;
-
-  console.log("Received request with energy:", energy, "and stress:", stress);
-
-  const moodKeyword = getMoodKeyword(energy, stress);
-  const language = 'en'; // Default language for now
-
-  console.log("Generated mood keyword:", moodKeyword);
-
-  try {
-      const playlistLink = await getSpotifyPlaylist(moodKeyword, language);
-      console.log("Playlist fetched successfully:", playlistLink);
-      res.json({ playlistLink });
-  } catch (error) {
-      console.error("Error fetching playlist:", error);
-      res.status(500).json({ error: 'Failed to fetch playlist.' });
-  }
-});
-
