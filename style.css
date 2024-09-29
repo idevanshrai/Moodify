@@ -160,7 +160,7 @@ body {
     -webkit-appearance: none;
     appearance: none;
     height: 12px;
-    background: #404040;
+    background: linear-gradient(to right, #1DB954 var(--value), #404040 var(--value)); /* Updated to use --value */
     border-radius: 10px;
     outline: none;
     transition: background 0.3s;
