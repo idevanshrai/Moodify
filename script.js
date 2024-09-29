@@ -65,7 +65,8 @@ submitBtn.addEventListener('click', async () => {
     const moodKeyword = getMoodKeyword(intensity, emotionalSpectrum, energy, stress, focus, social, musicPreference, emotionalBalance);
 
     try {
-        const response = await fetch('http://localhost:5500/playlist?' + new URLSearchParams({
+        // Update the fetch URL to your Vercel API endpoint
+        const response = await fetch(`https://moodify-lake.vercel.app/api?` + new URLSearchParams({
             intensity,
             emotionalSpectrum,
             energy,
