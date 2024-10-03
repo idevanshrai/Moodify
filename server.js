@@ -42,19 +42,16 @@ app.get('/playlist', async (req, res) => {
         emotionalSpectrum,
         energy,
         stress,
-        focus,
-        social,
-        musicPreference,
         weather,
         timeOfDay,
-        emotionalBalance,
-        moodKeyword
+        emotionalBalance
     } = req.query;
 
     console.log('Received request with parameters:', req.query);
 
     try {
-        const playlistLink = await getSpotifyPlaylist(moodKeyword);
+        const moodKeyword = getMoodKeyword(energy, stress, intensity, emotionalSpectrum, weather, timeOfDay, emotionalBalance);
+        const playlistLink = await getSpotifyPlaylist(moodKeyword, timeOfDay);
         res.json({ playlistLink });
     } catch (error) {
         console.error('Error fetching playlist:', error.message);
@@ -62,26 +59,47 @@ app.get('/playlist', async (req, res) => {
     }
 });
 
-// Determine mood keyword based on input values (if needed in the server)
-function getMoodKeyword(energy, stress, intensity, emotionalSpectrum, weather, timeOfDay) {
-    if (energy > 7 && stress < 3) {
+// Improved mood keyword determination function
+function getMoodKeyword(energy, stress, intensity, emotionalSpectrum, weather, timeOfDay, emotionalBalance) {
+    // Morning adjustments: Higher energy in the morning implies motivation
+    if (timeOfDay === 'morning' && energy > 7 && stress < 5) {
+        return 'motivated';
+    }
+    
+    // Afternoon adjustments: Slightly more relaxed in the afternoon if stress is low
+    if (timeOfDay === 'afternoon' && energy > 5 && stress < 4) {
+        return 'uplifted';
+    }
+    
+    // Evening adjustments: People tend to wind down in the evening
+    if (timeOfDay === 'evening') {
+        if (energy < 4 || stress > 6) {
+            return 'relaxed';
+        } else if (energy > 6 && emotionalSpectrum > 7) {
+            return 'excited';
+        }
+    }
+    
+    // General conditions
+    if (energy > 7 && stress < 3 && emotionalSpectrum > 6) {
         return 'happy';
-    } else if (energy < 4 && stress > 7) {
+    } else if (energy < 4 && stress > 7 && intensity < 4) {
         return 'calm';
     } else if (weather === 'high' && emotionalSpectrum > 7) {
         return 'excited';
-    } else if (timeOfDay === 'evening' && emotionalBalance < 5) {
-        return 'relaxed';
+    } else if (emotionalSpectrum < 4 && intensity > 5) {
+        return 'moody';
     } else {
         return 'neutral';
     }
 }
 
-// Fetch Spotify playlist based on mood
-async function getSpotifyPlaylist(mood) {
+// Fetch Spotify playlist based on mood and time of day
+async function getSpotifyPlaylist(mood, timeOfDay) {
     try {
-        console.log('Fetching playlist for mood:', mood);
-        const searchResponse = await spotifyApi.searchPlaylists(mood);
+        const query = `${mood} ${timeOfDay}`;
+        console.log('Fetching playlist for mood:', query);
+        const searchResponse = await spotifyApi.searchPlaylists(query);
         const playlist = searchResponse.body.playlists.items[0];
         if (playlist) {
             console.log('Playlist found:', playlist.external_urls.spotify);
