@@ -113,10 +113,12 @@ async function getSpotifyPlaylist(mood, timeOfDay) {
     }
 }
 
-// Start server on port 5500
-app.listen(5500, () => {
-    console.log('Server is running on port 5500');
+// Start server on Render
+const PORT = process.env.PORT || 5500;
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
 });
+
 
 // Add this route to test if the backend can be reached
 app.get('/test', (req, res) => {
