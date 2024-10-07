@@ -84,7 +84,7 @@ submitBtn.addEventListener('click', async () => {
     // Show loading message
     playlistResults.innerHTML = 'Fetching playlist...';
 
-    console.log('Sending request to http://localhost:5500/playlist with the following parameters:');
+    console.log('Sending request to https://moodify-backend-oqd9.onrender.com with the following parameters:');
     console.log({
         intensity,
         emotionalSpectrum,
@@ -101,7 +101,7 @@ submitBtn.addEventListener('click', async () => {
 
     try {
         // Make a GET request to the backend with the user input as query parameters
-        const response = await fetch('http://localhost:5500/playlist?' + new URLSearchParams({
+        const response = await fetch('https://moodify-backend-oqd9.onrender.com' + new URLSearchParams({
             intensity,
             emotionalSpectrum,
             energy,
