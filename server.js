@@ -5,9 +5,9 @@ require('dotenv').config();
 
 const app = express();
 
-// Enable CORS to allow requests from your frontend
+// Update CORS settings to allow requests from your Vercel frontend URL
 app.use(cors({
-    origin: '*', // Replace '*' with your frontend URL for enhanced security
+    origin: 'https://moodify-lake.vercel.app',  // Frontend Vercel
 }));
 
 const spotifyApi = new SpotifyWebApi({
@@ -23,11 +23,11 @@ const authenticateSpotify = async () => {
         spotifyApi.setAccessToken(data.body['access_token']);
         console.log('Successfully authenticated with Spotify API');
     } catch (error) {
-        console.error('Failed to authenticate with Spotify API:', error.message);
+        console.error('Failed to authenticate with Spotify API:', error);
     }
 };
 
-// Initial authentication
+// Initial authentication with Spotify
 authenticateSpotify();
 
 // Middleware to refresh Spotify API token if expired
@@ -51,22 +51,15 @@ app.get('/playlist', async (req, res) => {
         emotionalBalance
     } = req.query;
 
-    console.log('Received request with parameters:', req.query);
+    console.log('Received request with parameters:', req.query); // Log received query parameters
 
     try {
-        const moodKeyword = getMoodKeyword(
-            parseInt(energy),
-            parseInt(stress),
-            parseInt(intensity),
-            parseInt(emotionalSpectrum),
-            weather,
-            timeOfDay,
-            parseInt(emotionalBalance)
-        );
-
-        console.log('Determined mood keyword:', moodKeyword);
-
+        const moodKeyword = getMoodKeyword(energy, stress, intensity, emotionalSpectrum, weather, timeOfDay, emotionalBalance);
+        console.log('Mood keyword generated:', moodKeyword); // Log the mood keyword
+        
         const playlistLink = await getSpotifyPlaylist(moodKeyword, timeOfDay);
+        console.log('Playlist link fetched:', playlistLink); // Log the fetched playlist link
+        
         res.json({ playlistLink });
     } catch (error) {
         console.error('Error fetching playlist:', error.message);
@@ -74,26 +67,22 @@ app.get('/playlist', async (req, res) => {
     }
 });
 
-// Algorithm to determine mood keyword
+// Algorithm to determine the mood keyword
 function getMoodKeyword(energy, stress, intensity, emotionalSpectrum, weather, timeOfDay, emotionalBalance) {
-    // Ensure numerical inputs
-    energy = energy || 0;
-    stress = stress || 0;
-    intensity = intensity || 0;
-    emotionalSpectrum = emotionalSpectrum || 0;
-    emotionalBalance = emotionalBalance || 0;
-
-    // Morning adjustments
+    // Log inputs to the mood algorithm
+    console.log('Mood algorithm inputs:', { energy, stress, intensity, emotionalSpectrum, weather, timeOfDay, emotionalBalance });
+    
+    // Morning
     if (timeOfDay === 'morning' && energy > 7 && stress < 5) {
         return 'motivated';
     }
     
-    // Afternoon adjustments
+    // Afternoon
     if (timeOfDay === 'afternoon' && energy > 5 && stress < 4) {
-        return 'uplifting';
+        return 'uplifted';
     }
     
-    // Evening adjustments
+    // Evening
     if (timeOfDay === 'evening') {
         if (energy < 4 || stress > 6) {
             return 'relaxed';
@@ -108,7 +97,7 @@ function getMoodKeyword(energy, stress, intensity, emotionalSpectrum, weather, t
     } else if (energy < 4 && stress > 7 && intensity < 4) {
         return 'calm';
     } else if (weather === 'high' && emotionalSpectrum > 7) {
-        return 'energetic';
+        return 'excited';
     } else if (emotionalSpectrum < 4 && intensity > 5) {
         return 'moody';
     } else {
@@ -116,19 +105,17 @@ function getMoodKeyword(energy, stress, intensity, emotionalSpectrum, weather, t
     }
 }
 
-// Fetching Spotify playlist based on mood and time of day
+// Fetching playlist from Spotify
 async function getSpotifyPlaylist(mood, timeOfDay) {
     try {
         const query = `${mood} ${timeOfDay}`;
         console.log('Fetching playlist for mood:', query);
-
         const searchResponse = await spotifyApi.searchPlaylists(query);
-        console.log('Spotify search response:', searchResponse.body);
-
         const playlist = searchResponse.body.playlists.items[0];
+        
         if (playlist) {
             console.log('Playlist found:', playlist.external_urls.spotify);
-            return playlist.external_urls.spotify;
+            return playlist.external_urls.spotify; 
         } else {
             throw new Error('No playlist found');
         }
@@ -138,13 +125,13 @@ async function getSpotifyPlaylist(mood, timeOfDay) {
     }
 }
 
-// Start server on the specified port
+// Start the server
 const PORT = process.env.PORT || 5500;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
 
-// Route to test if the backend can be reached
+// Route to test backend connectivity
 app.get('/test', (req, res) => {
     res.send('Backend is working!');
 });
