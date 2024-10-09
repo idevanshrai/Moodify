@@ -100,7 +100,7 @@ submitBtn.addEventListener('click', async () => {
 
     try {
         // backend ko bolke data mangwa raha
-        const response = await fetch('https://moodify-g6k2.onrender.com' + new URLSearchParams({
+        const response = await fetch('https://moodify-g6k2.onrender.com/playlist' + new URLSearchParams({
             intensity,
             emotionalSpectrum,
             energy,
