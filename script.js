@@ -1,9 +1,8 @@
-// Wait for the DOM to load before executing the code
 document.addEventListener('DOMContentLoaded', () => {
-    // Log to check if the script is running
+    
     console.log('Document loaded. Executing splash screen logic.');
 
-    // Hide the splash screen and prompt for the user's name
+    
     setTimeout(() => {
         console.log('Hiding splash screen...');
         const splashScreen = document.getElementById('splash-screen');
@@ -31,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }, 4000);
 
-    // Update slider fill color dynamically
+    // COlor fill slider
     const sliders = document.querySelectorAll('.styled-slider');
     sliders.forEach(slider => {
         updateSliderFill(slider);
@@ -44,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// Determine mood keyword based on input values
+// Determine mood 
 function getMoodKeyword(intensity, emotionalSpectrum, energy, stress, focus, social, musicPreference, emotionalBalance) {
     if (energy > 7 && intensity > 7 && emotionalSpectrum > 7) {
         return 'upbeat';
@@ -78,13 +77,13 @@ submitBtn.addEventListener('click', async () => {
     const timeOfDay = document.getElementById('time-dropdown').value;
     const emotionalBalance = document.getElementById('emotional-balance-slider').value;
 
-    // Get mood keyword
+    
     const moodKeyword = getMoodKeyword(intensity, emotionalSpectrum, energy, stress, focus, social, musicPreference, emotionalBalance);
 
-    // Show loading message
+    //loading message
     playlistResults.innerHTML = 'Fetching playlist...';
 
-    console.log('Sending request to https://moodify-backend-oqd9.onrender.com with the following parameters:');
+    console.log('Sending request to https://moodify-g6k2.onrender.com with the following parameters:');
     console.log({
         intensity,
         emotionalSpectrum,
@@ -100,8 +99,8 @@ submitBtn.addEventListener('click', async () => {
     });
 
     try {
-        // Make a GET request to the backend with the user input as query parameters
-        const response = await fetch('https://moodify-backend-oqd9.onrender.com' + new URLSearchParams({
+        // backend ko bolke data mangwa raha
+        const response = await fetch('https://moodify-g6k2.onrender.com' + new URLSearchParams({
             intensity,
             emotionalSpectrum,
             energy,

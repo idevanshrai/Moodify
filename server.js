@@ -23,7 +23,7 @@ const authenticateSpotify = async () => {
     }
 };
 
-// Initial authentication
+// thenctication with spotify
 authenticateSpotify();
 
 // Middleware to refresh Spotify API token if expired
@@ -59,19 +59,19 @@ app.get('/playlist', async (req, res) => {
     }
 });
 
-// Improved mood keyword determination function
+// Algoritmh
 function getMoodKeyword(energy, stress, intensity, emotionalSpectrum, weather, timeOfDay, emotionalBalance) {
-    // Morning adjustments: Higher energy in the morning implies motivation
+    // Morning 
     if (timeOfDay === 'morning' && energy > 7 && stress < 5) {
         return 'motivated';
     }
     
-    // Afternoon adjustments: Slightly more relaxed in the afternoon if stress is low
+    // Afternoon 
     if (timeOfDay === 'afternoon' && energy > 5 && stress < 4) {
         return 'uplifted';
     }
     
-    // Evening adjustments: People tend to wind down in the evening
+    // Evening 
     if (timeOfDay === 'evening') {
         if (energy < 4 || stress > 6) {
             return 'relaxed';
@@ -94,7 +94,7 @@ function getMoodKeyword(energy, stress, intensity, emotionalSpectrum, weather, t
     }
 }
 
-// Fetch Spotify playlist based on mood and time of day
+// Fetching Playlist
 async function getSpotifyPlaylist(mood, timeOfDay) {
     try {
         const query = `${mood} ${timeOfDay}`;
@@ -103,7 +103,7 @@ async function getSpotifyPlaylist(mood, timeOfDay) {
         const playlist = searchResponse.body.playlists.items[0];
         if (playlist) {
             console.log('Playlist found:', playlist.external_urls.spotify);
-            return playlist.external_urls.spotify; // Return the Spotify playlist link
+            return playlist.external_urls.spotify; 
         } else {
             throw new Error('No playlist found');
         }
