@@ -7,7 +7,7 @@ const app = express();
 
 // Update CORS settings to allow requests from your Vercel frontend URL
 app.use(cors({
-    origin: 'https://moodify-lake.vercel.app',  // Frontend Vercel
+    origin: '*',  // Frontend Vercel
 }));
 
 const spotifyApi = new SpotifyWebApi({
