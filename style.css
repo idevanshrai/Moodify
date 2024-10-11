@@ -1,14 +1,14 @@
-/* Minecraft font */
+/* Import the Minecraft-like font */
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
-/* Applyinh the Minecraft font */
+/* Apply the Minecraft font */
 .minecraft-font {
     font-family: 'Press Start 2P', sans-serif;
 }
 
-
+/* Existing styles */
 body {
-    background: linear-gradient(135deg, #121212, #181818);
+    background: linear-gradient(135deg, #121212, #181818); /* Retain the gradient */
     color: #ffffff;
     font-family: 'Circular Std', 'Helvetica Neue', Arial, sans-serif;
     margin: 0;
@@ -29,12 +29,12 @@ body {
     padding: 20px;
     display: flex;
     flex-direction: column;
-    align-items: center; /* Centering all content horizontally */
+    align-items: center; /* Center all content horizontally */
 }
 
 /* Scrollbar Styling */
 #app::-webkit-scrollbar {
-    width: 12px;
+    width: 12px; /* Set width of the scrollbar */
 }
 
 #app::-webkit-scrollbar-track {
@@ -215,9 +215,9 @@ body {
 
 /* Adjusting the logo size */
 .logo {
-    width: 200px; 
-    height: auto; 
-    vertical-align: middle; 
+    width: 200px; /* Adjust the size to fit the text */
+    height: auto; /* Maintain aspect ratio */
+    vertical-align: middle; /* Align logo with text */
 }
 
 /* Container for shapes */
@@ -227,14 +227,15 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: -1; 
-    overflow: hidden; 
+    z-index: -1; /* Place behind main content */
+    overflow: hidden; /* Prevent overflow of shapes */
 }
 
 /* Basic shape styles */
 .shape {
     position: absolute;
-    opacity: 0.2; 
+    opacity: 0.2; /* Transparent to avoid overpowering content */
+    mix-blend-mode: screen; /* Blend shapes with the background for a nice effect */
 }
 
 /* Circle */
@@ -303,7 +304,7 @@ body {
 
 /* Media Queries for responsiveness */
 @media (max-width: 768px) {
-    /* content wrapper for smaller screens */
+    /* Adjust content wrapper for smaller screens */
     .content-wrapper {
         padding: 20px;
         max-width: 90%;
@@ -319,7 +320,7 @@ body {
 }
 
 @media (max-width: 480px) {
-    /*  body for small mobile screens */
+    /* Adjust body for small mobile screens */
     body {
         height: auto;
         overflow-y: scroll;
@@ -336,13 +337,13 @@ body {
         padding: 12px;
     }
 
-    /* slider thumb size */
+    /* Reduce slider thumb size */
     .styled-slider::-webkit-slider-thumb {
         width: 15px;
         height: 15px;
     }
 
-    /* header and user icon for small screens */
+    /* Adjust header and user icon for small screens */
     #header {
         top: 5px;
         right: 10px;
