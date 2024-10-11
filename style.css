@@ -6,21 +6,9 @@
     font-family: 'Press Start 2P', sans-serif;
 }
 
-html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    background: linear-gradient(135deg, #121212, #181818); /* Black gradient background */
-    color: #ffffff;
-    font-family: 'Circular Std', 'Helvetica Neue', Arial, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
 /* Existing styles */
 body {
-    background: linear-gradient(135deg, #121212, #181818); /* Retain the gradient */
+    background: linear-gradient(135deg, #121212, #181818); /* Retain the black gradient */
     color: #ffffff;
     font-family: 'Circular Std', 'Helvetica Neue', Arial, sans-serif;
     margin: 0;
@@ -35,7 +23,6 @@ body {
 
 /* Add a scroll container */
 #app {
-    background: none;
     overflow-y: auto;
     max-height: 80vh;
     width: 100%;
@@ -233,6 +220,19 @@ body {
     vertical-align: middle; /* Align logo with text */
 }
 
+/* Background for the body */
+body {
+    background: linear-gradient(135deg, #121212, #181818); /* Black gradient background */
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 /* Container for shapes */
 .main-page-shapes {
     position: absolute;
@@ -248,7 +248,7 @@ body {
 .shape {
     position: absolute;
     opacity: 0.2; /* Transparent to avoid overpowering content */
-    mix-blend-mode: screen; /* Blend shapes with the background for a nice effect */
+    mix-blend-mode: screen; /* Blend shapes with the background */
 }
 
 /* Circle */
@@ -260,6 +260,7 @@ body {
     top: 20%;
     left: 10%;
     animation: moveCircle 10s ease-in-out infinite;
+    mix-blend-mode: screen; /* Blend with background */
 }
 
 /* Square */
@@ -270,6 +271,7 @@ body {
     top: 60%;
     left: 70%;
     animation: moveSquare 12s ease-in-out infinite;
+    mix-blend-mode: screen; /* Blend with background */
 }
 
 /* Triangle */
@@ -283,6 +285,7 @@ body {
     left: 50%;
     transform: rotate(30deg);
     animation: moveTriangle 15s ease-in-out infinite;
+    mix-blend-mode: screen; /* Blend with background */
 }
 
 /* Circle Animation */
