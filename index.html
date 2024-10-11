@@ -39,7 +39,7 @@
         <div id="mood-assessment" class="content-wrapper">
             <h2>How are you feeling today?</h2>
 
-            <!-- Sliders with Labels -->
+            <!-- Retained Sliders with Labels -->
             <div class="slider-container">
                 <label for="intensity-slider">Mood Intensity</label>
                 <div class="slider-with-labels">
@@ -112,7 +112,7 @@
                 </div>
             </div>
 
-            <!-- Dropdowns -->
+            <!-- Retained Dropdowns -->
             <label for="weather-dropdown">Weather Influence</label>
             <select id="weather-dropdown" class="styled-dropdown">
                 <option value="none">Not at all</option>
@@ -128,6 +128,16 @@
                 <option value="evening">Evening</option>
                 <option value="night">Night</option>
             </select>
+
+            <!-- New Language Selector Dropdown -->
+            <div class="slider-container">
+                <label for="language-dropdown">Select Song Language:</label>
+                <select id="language-dropdown" class="styled-dropdown">
+                    <option value="english">English</option>
+                    <option value="hindi">Hindi</option>
+                    <option value="punjabi">Punjabi</option>
+                </select>
+            </div>
 
             <!-- Submit Button -->
             <button id="submit-btn" class="styled-button">Get Playlist</button>

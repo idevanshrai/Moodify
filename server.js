@@ -48,7 +48,8 @@ app.get('/playlist', async (req, res) => {
         stress,
         weather,
         timeOfDay,
-        emotionalBalance
+        emotionalBalance,
+        language  // Added language parameter
     } = req.query;
 
     console.log('Received request with parameters:', req.query); // Log received query parameters
@@ -57,7 +58,7 @@ app.get('/playlist', async (req, res) => {
         const moodKeyword = getMoodKeyword(energy, stress, intensity, emotionalSpectrum, weather, timeOfDay, emotionalBalance);
         console.log('Mood keyword generated:', moodKeyword); // Log the mood keyword
         
-        const playlistLink = await getSpotifyPlaylist(moodKeyword, timeOfDay);
+        const playlistLink = await getSpotifyPlaylist(moodKeyword, timeOfDay, language); // Pass the language to the playlist fetching function
         console.log('Playlist link fetched:', playlistLink); // Log the fetched playlist link
         
         res.json({ playlistLink });
@@ -105,10 +106,15 @@ function getMoodKeyword(energy, stress, intensity, emotionalSpectrum, weather, t
     }
 }
 
-// Fetching playlist from Spotify
-async function getSpotifyPlaylist(mood, timeOfDay) {
+// Fetching playlist from Spotify, now considering the language parameter
+async function getSpotifyPlaylist(mood, timeOfDay, language) {
     try {
-        const query = `${mood} ${timeOfDay}`;
+        // Include language in the search query if provided
+        let query = `${mood} ${timeOfDay}`;
+        if (language) {
+            query += ` ${language}`;  // Append language to the search query
+        }
+
         console.log('Fetching playlist for mood:', query);
         const searchResponse = await spotifyApi.searchPlaylists(query);
         const playlist = searchResponse.body.playlists.items[0];

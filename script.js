@@ -1,8 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
-    
     console.log('Document loaded. Executing splash screen logic.');
 
-    
     setTimeout(() => {
         console.log('Hiding splash screen...');
         const splashScreen = document.getElementById('splash-screen');
@@ -30,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }, 4000);
 
-    // COlor fill slider
+    // Color fill slider
     const sliders = document.querySelectorAll('.styled-slider');
     sliders.forEach(slider => {
         updateSliderFill(slider);
@@ -76,11 +74,14 @@ submitBtn.addEventListener('click', async () => {
     const weather = document.getElementById('weather-dropdown').value;
     const timeOfDay = document.getElementById('time-dropdown').value;
     const emotionalBalance = document.getElementById('emotional-balance-slider').value;
-
     
+    // Get value from the language dropdown
+    const language = document.getElementById('language-dropdown').value;
+
+    // Determine the mood keyword
     const moodKeyword = getMoodKeyword(intensity, emotionalSpectrum, energy, stress, focus, social, musicPreference, emotionalBalance);
 
-    //loading message
+    // Display loading message
     playlistResults.innerHTML = 'Fetching playlist...';
 
     console.log('Sending request to https://moodify-g6k2.onrender.com with the following parameters:');
@@ -95,11 +96,12 @@ submitBtn.addEventListener('click', async () => {
         weather,
         timeOfDay,
         emotionalBalance,
-        moodKeyword
+        moodKeyword,
+        language  // Add language to log
     });
 
     try {
-        // backend ko bolke data mangwa raha
+        // Send request to the backend with language parameter
         const response = await fetch('https://moodify-backend-oqd9.onrender.com/playlist?' + new URLSearchParams({
             intensity,
             emotionalSpectrum,
@@ -111,7 +113,8 @@ submitBtn.addEventListener('click', async () => {
             weather,
             timeOfDay,
             emotionalBalance,
-            moodKeyword
+            moodKeyword,
+            language  // Include the language in the request
         }));
 
         console.log('Response status:', response.status);
