@@ -6,6 +6,18 @@
     font-family: 'Press Start 2P', sans-serif;
 }
 
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #121212, #181818); /* Black gradient background */
+    color: #ffffff;
+    font-family: 'Circular Std', 'Helvetica Neue', Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 /* Existing styles */
 body {
     background: linear-gradient(135deg, #121212, #181818); /* Retain the gradient */
