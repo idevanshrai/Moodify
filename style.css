@@ -54,7 +54,6 @@ body {
     margin: 20px 0;
 }
 
-/* Splash Screen */
 #splash-screen {
     position: absolute;
     top: 0;
@@ -65,10 +64,32 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 2.5rem;
+    font-size: 2.5rem; /* Default font size */
     color: #1DB954;
     z-index: 10;
     animation: fadeOut 2s forwards 3s;
+    text-align: center; /* Center text in smaller screens */
+}
+
+/* Animation for fading out the splash screen */
+@keyframes fadeOut {
+    to {
+        opacity: 0;
+    }
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+    #splash-screen {
+        font-size: 2rem; /* Reduce font size on tablets */
+    }
+}
+
+@media (max-width: 480px) {
+    #splash-screen {
+        font-size: 1.5rem; /* Further reduce font size on mobile */
+        padding: 20px; /* Add some padding on mobile for better readability */
+    }
 }
 
 /* Header styling for User's Name */
