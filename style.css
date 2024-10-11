@@ -23,6 +23,7 @@ body {
 
 /* Add a scroll container */
 #app {
+    background: none;
     overflow-y: auto;
     max-height: 80vh;
     width: 100%;
