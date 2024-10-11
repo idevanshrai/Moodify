@@ -1,12 +1,12 @@
-/* Import the Minecraft-like font */
+/* Minecraft font */
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
-/* Apply the Minecraft font */
+/* Applyinh the Minecraft font */
 .minecraft-font {
     font-family: 'Press Start 2P', sans-serif;
 }
 
-/* Existing styles */
+
 body {
     background: linear-gradient(135deg, #121212, #181818);
     color: #ffffff;
@@ -29,12 +29,12 @@ body {
     padding: 20px;
     display: flex;
     flex-direction: column;
-    align-items: center; /* Center all content horizontally */
+    align-items: center; /* Centering all content horizontally */
 }
 
 /* Scrollbar Styling */
 #app::-webkit-scrollbar {
-    width: 12px; /* Set width of the scrollbar */
+    width: 12px;
 }
 
 #app::-webkit-scrollbar-track {
@@ -52,23 +52,6 @@ body {
 .app-title {
     text-align: center;
     margin: 20px 0;
-}
-
-/* Background Decorative Elements */
-.background-shapes .circle {
-    position: absolute;
-    top: 10%;
-    left: -50px;
-    width: 200px;
-    height: 200px;
-    background: rgba(29, 185, 84, 0.3);
-    border-radius: 50%;
-    filter: blur(50px);
-}
-
-/* Additional shape styles remain unchanged */
-.background-shapes .square, .background-shapes .triangle, .background-shapes .wave, .background-shapes .dots {
-    /* Other shape styles */
 }
 
 /* Splash Screen */
@@ -232,9 +215,9 @@ body {
 
 /* Adjusting the logo size */
 .logo {
-    width: 200px; /* Adjust the size to fit the text */
-    height: auto; /* Maintain aspect ratio */
-    vertical-align: middle; /* Align logo with text */
+    width: 200px; 
+    height: auto; 
+    vertical-align: middle; 
 }
 
 /* Container for shapes */
@@ -244,14 +227,14 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: -1; /* Place behind main content */
-    overflow: hidden; /* Prevent overflow of shapes */
+    z-index: -1; 
+    overflow: hidden; 
 }
 
 /* Basic shape styles */
 .shape {
     position: absolute;
-    opacity: 0.2; /* Transparent to avoid overpowering content */
+    opacity: 0.2; 
 }
 
 /* Circle */
@@ -262,6 +245,7 @@ body {
     border-radius: 50%;
     top: 20%;
     left: 10%;
+    animation: moveCircle 10s ease-in-out infinite;
 }
 
 /* Square */
@@ -271,6 +255,7 @@ body {
     background-color: #6fa8dc;
     top: 60%;
     left: 70%;
+    animation: moveSquare 12s ease-in-out infinite;
 }
 
 /* Triangle */
@@ -283,4 +268,97 @@ body {
     top: 40%;
     left: 50%;
     transform: rotate(30deg);
+    animation: moveTriangle 15s ease-in-out infinite;
+}
+
+/* Circle Animation */
+@keyframes moveCircle {
+    0%, 100% {
+        transform: translate(0, 0);
+    }
+    50% {
+        transform: translate(30px, 20px);
+    }
+}
+
+/* Square Animation */
+@keyframes moveSquare {
+    0%, 100% {
+        transform: translate(0, 0);
+    }
+    50% {
+        transform: translate(-20px, -30px);
+    }
+}
+
+/* Triangle Animation */
+@keyframes moveTriangle {
+    0%, 100% {
+        transform: translate(0, 0) rotate(30deg);
+    }
+    50% {
+        transform: translate(15px, -15px) rotate(40deg);
+    }
+}
+
+/* Media Queries for responsiveness */
+@media (max-width: 768px) {
+    /* content wrapper for smaller screens */
+    .content-wrapper {
+        padding: 20px;
+        max-width: 90%;
+    }
+    
+    .styled-button {
+        width: 90%;
+    }
+
+    .styled-slider {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    /*  body for small mobile screens */
+    body {
+        height: auto;
+        overflow-y: scroll;
+    }
+
+    .content-wrapper {
+        padding: 15px;
+        width: 95%;
+    }
+
+    .styled-button {
+        width: 100%;
+        font-size: 1rem;
+        padding: 12px;
+    }
+
+    /* slider thumb size */
+    .styled-slider::-webkit-slider-thumb {
+        width: 15px;
+        height: 15px;
+    }
+
+    /* header and user icon for small screens */
+    #header {
+        top: 5px;
+        right: 10px;
+    }
+
+    #user-name {
+        font-size: 0.8rem;
+    }
+
+    .user-icon {
+        width: 20px;
+        height: 20px;
+    }
+
+    /* Splash Screen text size */
+    #splash-screen {
+        font-size: 2rem;
+    }
 }
