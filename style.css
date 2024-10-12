@@ -209,6 +209,18 @@ body {
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
 }
 
+.disclaimer
+{
+    width: 44%;
+    text-align: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 10px;
+    background: #262626;
+    font-weight: 300;
+    margin-top: 10px;
+    border-radius: 20px;
+}
+
 .styled-button:hover {
     background-color: #1ed760;
     transform: scale(1.05);
