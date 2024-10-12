@@ -5,7 +5,7 @@ require('dotenv').config();
 
 const app = express();
 
-// Update CORS settings to allow requests from your Vercel frontend URL
+// CORS SEttings
 app.use(cors({
     origin: '*',  // Frontend Vercel
 }));
@@ -68,43 +68,71 @@ app.get('/playlist', async (req, res) => {
     }
 });
 
-// Algorithm to determine the mood keyword
+// Algorithm to determine the mood keyword 
 function getMoodKeyword(energy, stress, intensity, emotionalSpectrum, weather, timeOfDay, emotionalBalance) {
-    // Log inputs to the mood algorithm
     console.log('Mood algorithm inputs:', { energy, stress, intensity, emotionalSpectrum, weather, timeOfDay, emotionalBalance });
-    
-    // Morning
-    if (timeOfDay === 'morning' && energy > 7 && stress < 5) {
-        return 'motivated';
+
+    // Morning moods
+    if (timeOfDay === 'morning') {
+        if (energy > 8 && stress < 4 && intensity > 7) {
+            return 'productive';
+        } else if (energy > 6 && emotionalSpectrum > 7 && stress < 5) {
+            return 'motivated';
+        } else if (energy < 4 && stress > 7 && intensity < 4) {
+            return 'calm';
+        } else if (emotionalSpectrum < 4 && stress > 7) {
+            return 'moody';
+        }
     }
-    
-    // Afternoon
-    if (timeOfDay === 'afternoon' && energy > 5 && stress < 4) {
-        return 'uplifted';
+
+    // Afternoon moods
+    if (timeOfDay === 'afternoon') {
+        if (energy > 6 && stress < 4 && emotionalSpectrum > 7) {
+            return 'uplifted';
+        } else if (energy < 5 && stress > 6 && emotionalBalance < 5) {
+            return 'drained';
+        } else if (energy > 5 && intensity > 7 && emotionalSpectrum > 6) {
+            return 'energetic';
+        } else if (emotionalSpectrum < 4 && stress > 6) {
+            return 'anxious';
+        }
     }
-    
-    // Evening
+
+    // Evening moods
     if (timeOfDay === 'evening') {
-        if (energy < 4 || stress > 6) {
+        if (energy < 4 && stress > 6 && intensity < 4) {
             return 'relaxed';
         } else if (energy > 6 && emotionalSpectrum > 7) {
             return 'excited';
+        } else if (energy > 5 && emotionalSpectrum < 4 && stress < 6) {
+            return 'reflective';
+        } else if (energy < 3 && emotionalBalance < 3 && stress > 7) {
+            return 'exhausted';
         }
     }
-    
-    // General conditions
-    if (energy > 7 && stress < 3 && emotionalSpectrum > 6) {
+
+    // General condition
+    if (energy > 7 && stress < 3 && emotionalSpectrum > 6 && intensity > 7) {
         return 'happy';
     } else if (energy < 4 && stress > 7 && intensity < 4) {
         return 'calm';
-    } else if (weather === 'high' && emotionalSpectrum > 7) {
+    } else if (energy < 3 && stress > 8) {
+        return 'burnt out';
+    } else if (weather === 'high' && emotionalSpectrum > 6) {
         return 'excited';
-    } else if (emotionalSpectrum < 4 && intensity > 5) {
+    } else if (emotionalSpectrum < 3 && intensity > 7) {
         return 'moody';
+    } else if (intensity < 3 && stress < 4 && emotionalBalance < 3) {
+        return 'peaceful';
+    } else if (intensity > 7 && energy > 7 && emotionalBalance > 6) {
+        return 'energized';
+    } else if (energy < 4 && emotionalBalance < 4 && stress > 8) {
+        return 'exhausted';
     } else {
         return 'neutral';
     }
 }
+
 
 // Fetching playlist from Spotify, now considering the language parameter
 async function getSpotifyPlaylist(mood, timeOfDay, language) {

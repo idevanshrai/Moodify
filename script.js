@@ -2,7 +2,6 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('Document loaded. Executing splash screen logic.');
 
     setTimeout(() => {
-        console.log('Hiding splash screen...');
         const splashScreen = document.getElementById('splash-screen');
         if (splashScreen) {
             splashScreen.style.display = 'none';
@@ -28,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }, 4000);
 
-    // Color fill slider
+    // Color fill slider logic
     const sliders = document.querySelectorAll('.styled-slider');
     sliders.forEach(slider => {
         updateSliderFill(slider);
@@ -41,18 +40,33 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// Determine mood 
-function getMoodKeyword(intensity, emotionalSpectrum, energy, stress, focus, social, musicPreference, emotionalBalance) {
-    if (energy > 7 && intensity > 7 && emotionalSpectrum > 7) {
-        return 'upbeat';
-    } else if (stress > 7 || emotionalBalance < 3) {
+// Determine mood based on user input
+function getMoodKeyword(energy, stress, intensity, emotionalSpectrum, timeOfDay) {
+    // Adjusted mood guessing logic
+    if (timeOfDay === 'morning' && energy > 7 && stress < 5) {
+        return 'motivated';
+    }
+    
+    if (timeOfDay === 'afternoon' && energy > 5 && stress < 4) {
+        return 'uplifted';
+    }
+    
+    if (timeOfDay === 'evening') {
+        if (energy < 4 || stress > 6) {
+            return 'relaxed';
+        } else if (energy > 6 && emotionalSpectrum > 7) {
+            return 'excited';
+        }
+    }
+    
+    if (energy > 7 && stress < 3 && emotionalSpectrum > 6) {
+        return 'happy';
+    } else if (energy < 4 && stress > 7 && intensity < 4) {
         return 'calm';
-    } else if (focus > 5 && energy < 4) {
-        return 'relaxing';
-    } else if (social > 5 && musicPreference > 5) {
-        return 'party';
+    } else if (emotionalSpectrum < 4 && intensity > 5) {
+        return 'moody';
     } else {
-        return 'chill';
+        return 'neutral';
     }
 }
 
@@ -68,9 +82,9 @@ submitBtn.addEventListener('click', async () => {
     const emotionalSpectrum = document.getElementById('emotional-spectrum-slider').value;
     const energy = document.getElementById('energy-slider').value;
     const stress = document.getElementById('stress-slider').value;
-    const focus = document.getElementById('focus-slider').value;
-    const social = document.getElementById('social-slider').value;
-    const musicPreference = document.getElementById('music-preference-slider').value;
+    const focus = document.getElementById('focus-slider').value; // Assuming you have this slider
+    const social = document.getElementById('social-slider').value; // Assuming you have this slider
+    const musicPreference = document.getElementById('music-preference-slider').value; // Assuming you have this slider
     const weather = document.getElementById('weather-dropdown').value;
     const timeOfDay = document.getElementById('time-dropdown').value;
     const emotionalBalance = document.getElementById('emotional-balance-slider').value;
@@ -78,13 +92,13 @@ submitBtn.addEventListener('click', async () => {
     // Get value from the language dropdown
     const language = document.getElementById('language-dropdown').value;
 
-    // Determine the mood keyword
-    const moodKeyword = getMoodKeyword(intensity, emotionalSpectrum, energy, stress, focus, social, musicPreference, emotionalBalance);
+    // Determine the mood keyword using the new algorithm
+    const moodKeyword = getMoodKeyword(energy, stress, intensity, emotionalSpectrum, timeOfDay);
 
     // Display loading message
     playlistResults.innerHTML = 'Fetching playlist...';
 
-    console.log('Sending request to https://moodify-g6k2.onrender.com with the following parameters:');
+    console.log('Sending request to the server with the following parameters:');
     console.log({
         intensity,
         emotionalSpectrum,
@@ -101,7 +115,7 @@ submitBtn.addEventListener('click', async () => {
     });
 
     try {
-        // Send request to the backend with language parameter
+        // Send request to the backend with the language parameter
         const response = await fetch('https://moodify-backend-oqd9.onrender.com/playlist?' + new URLSearchParams({
             intensity,
             emotionalSpectrum,
