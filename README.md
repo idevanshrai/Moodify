@@ -22,7 +22,7 @@ This project demonstrates how to create a web-based application that generates a
     
 2. **Clone the Repository:**
    ```bash
-   git clone https://github.com/yourusername/Moodify.git
+   git clone https://github.com/idevanshrai/Moodify.git
    cd Moodify
    ```
 
