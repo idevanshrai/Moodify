@@ -3,155 +3,280 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moodify - Your Personalized Music Experience</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-    <title>Moodify</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="theme-color" content="#121212">
 </head>
 <body>
-    <!-- Background Decorative Elements -->
-    <div class="background-shapes">
-        <div class="circle"></div>
-    </div>
-
     <!-- Splash Screen -->
     <div id="splash-screen">
-        <h1 class="minecraft-font">Moodify <img src="/logo.png" alt="Logo" class="logo"></h1>
-    </div>
-
-    <!-- Header for User's Name -->
-    <div id="header">
-        <div id="user-name">
-            <img src="/user-icon.png" alt="User Icon" class="user-icon">
-            <span id="display-name" class="minecraft-font"></span>
+        <div class="splash-content">
+            <div class="equalizer">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+            <h1>Moodify</h1>
+            <p class="tagline">Music that matches your mood</p>
         </div>
     </div>
 
-    <!-- Main App Content -->
+    <!-- Settings Modal -->
+    <div id="settings-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-cog"></i> Settings</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="setting-option">
+                    <label for="theme-select">Color Theme</label>
+                    <select id="theme-select" class="styled-dropdown">
+                        <option value="default">Spotify Green</option>
+                        <option value="purple">Deep Purple</option>
+                        <option value="blue">Ocean Blue</option>
+                        <option value="red">Crimson Red</option>
+                    </select>
+                </div>
+                <div class="setting-option">
+                    <label for="animation-toggle">Animations</label>
+                    <label class="switch">
+                        <input type="checkbox" id="animation-toggle" checked>
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+                <div class="setting-option">
+                    <label for="volume-slider">Default Volume</label>
+                    <input type="range" min="0" max="100" value="70" id="volume-slider" class="styled-slider">
+                    <span class="slider-value" id="volume-value">70%</span>
+                </div>
+                <button id="save-settings" class="styled-button">
+                    <i class="fas fa-save"></i> Save Settings
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Help Modal -->
+    <div id="help-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-question-circle"></i> Help & Info</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="help-section">
+                    <h4><i class="fas fa-sliders-h"></i> Mood Sliders</h4>
+                    <p>Adjust each slider to reflect your current emotional state. The more accurate your inputs, the better your playlist will match your mood.</p>
+                </div>
+                <div class="help-section">
+                    <h4><i class="fas fa-cloud"></i> Weather Influence</h4>
+                    <p>Indicate how much the current weather affects your mood. This helps tailor the playlist atmosphere.</p>
+                </div>
+                <div class="help-section">
+                    <h4><i class="fas fa-clock"></i> Time of Day</h4>
+                    <p>Select the current time period to get music that fits typical energy levels for that time.</p>
+                </div>
+                <div class="help-section">
+                    <h4><i class="fas fa-language"></i> Language Preference</h4>
+                    <p>Choose your preferred language for song lyrics to ensure you connect with the music.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main App -->
     <div id="app" class="hidden">
-        <!-- Background Decorative Elements for Main Page -->
-        <div class="main-page-shapes">
-            <div class="shape circle"></div>
-            <div class="shape square"></div>
-            <div class="shape triangle"></div>
-        </div>
-
-        <h1 class="app-title minecraft-font">Moodify</h1>
-        <div id="mood-assessment" class="content-wrapper">
-            <h2>How are you feeling today?</h2>
-
-            <!-- Retained Sliders with Labels -->
-            <div class="slider-container">
-                <label for="intensity-slider">Mood Intensity</label>
-                <div class="slider-with-labels">
-                    <span class="slider-label">Low</span>
-                    <input type="range" min="0" max="10" value="5" id="intensity-slider" class="styled-slider">
-                    <span class="slider-label">High</span>
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-content">
+                <div class="logo-container">
+                    <i class="fas fa-spotify logo-icon"></i>
+                    <span class="logo-text">Moodify</span>
+                </div>
+                <div id="user-name">
+                    <img src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" alt="User Icon" class="user-icon">
+                    <span id="display-name"></span>
                 </div>
             </div>
+        </header>
 
-            <div class="slider-container">
-                <label for="emotional-spectrum-slider">Emotional Spectrum</label>
-                <div class="slider-with-labels">
-                    <span class="slider-label">Low</span>
-                    <input type="range" min="0" max="10" value="5" id="emotional-spectrum-slider" class="styled-slider">
-                    <span class="slider-label">High</span>
+        <!-- Main Content -->
+        <main class="main-content">
+            <section class="mood-assessment">
+                <h2><i class="fas fa-heart"></i> How are you feeling?</h2>
+                
+                <div class="assessment-grid">
+                    <!-- Energy Level -->
+                    <div class="slider-container">
+                        <label for="energy-slider">
+                            <i class="fas fa-bolt"></i> Energy Level
+                            <span class="slider-value" id="energy-value">5</span>
+                        </label>
+                        <div class="slider-wrapper">
+                            <input type="range" min="0" max="10" value="5" id="energy-slider" class="styled-slider">
+                        </div>
+                        <div class="mood-tooltip">How awake and active you feel</div>
+                    </div>
+
+                    <!-- Happiness -->
+                    <div class="slider-container">
+                        <label for="happiness-slider">
+                            <i class="fas fa-smile"></i> Happiness
+                            <span class="slider-value" id="happiness-value">5</span>
+                        </label>
+                        <div class="slider-wrapper">
+                            <input type="range" min="0" max="10" value="5" id="happiness-slider" class="styled-slider">
+                        </div>
+                        <div class="mood-tooltip">How positive or negative your mood is</div>
+                    </div>
+
+                    <!-- Stress Level -->
+                    <div class="slider-container">
+                        <label for="stress-slider">
+                            <i class="fas fa-cloud"></i> Stress Level
+                            <span class="slider-value" id="stress-value">5</span>
+                        </label>
+                        <div class="slider-wrapper">
+                            <input type="range" min="0" max="10" value="5" id="stress-slider" class="styled-slider">
+                        </div>
+                        <div class="mood-tooltip">How tense or relaxed you feel</div>
+                    </div>
+
+                    <!-- Focus Need -->
+                    <div class="slider-container">
+                        <label for="focus-slider">
+                            <i class="fas fa-brain"></i> Focus Need
+                            <span class="slider-value" id="focus-value">5</span>
+                        </label>
+                        <div class="slider-wrapper">
+                            <input type="range" min="0" max="10" value="5" id="focus-slider" class="styled-slider">
+                        </div>
+                        <div class="mood-tooltip">How much you need to concentrate</div>
+                    </div>
+
+                    <!-- Social Feeling -->
+                    <div class="slider-container">
+                        <label for="social-slider">
+                            <i class="fas fa-users"></i> Social Feeling
+                            <span class="slider-value" id="social-value">5</span>
+                        </label>
+                        <div class="slider-wrapper">
+                            <input type="range" min="0" max="10" value="5" id="social-slider" class="styled-slider">
+                        </div>
+                        <div class="mood-tooltip">How social or solitary you feel</div>
+                    </div>
+
+                    <!-- Music Preference -->
+                    <div class="slider-container">
+                        <label for="music-preference-slider">
+                            <i class="fas fa-music"></i> Music Style
+                            <span class="slider-value" id="music-preference-value">5</span>
+                        </label>
+                        <div class="slider-wrapper">
+                            <input type="range" min="0" max="10" value="5" id="music-preference-slider" class="styled-slider">
+                        </div>
+                        <div class="mood-tooltip">From calm to energetic music</div>
+                    </div>
+
+                    <!-- Dropdowns -->
+                    <div class="dropdown-container">
+                        <label for="weather-dropdown">
+                            <i class="fas fa-cloud-sun"></i> Weather Influence
+                        </label>
+                        <select id="weather-dropdown" class="styled-dropdown">
+                            <option value="none">Not at all</option>
+                            <option value="low">Low</option>
+                            <option value="moderate">Moderate</option>
+                            <option value="high">High</option>
+                        </select>
+                    </div>
+
+                    <div class="dropdown-container">
+                        <label for="time-dropdown">
+                            <i class="fas fa-clock"></i> Time of Day
+                        </label>
+                        <select id="time-dropdown" class="styled-dropdown">
+                            <option value="morning">Morning</option>
+                            <option value="afternoon">Afternoon</option>
+                            <option value="evening">Evening</option>
+                            <option value="night">Night</option>
+                        </select>
+                    </div>
+
+                    <div class="dropdown-container">
+                        <label for="language-dropdown">
+                            <i class="fas fa-language"></i> Song Language
+                        </label>
+                        <select id="language-dropdown" class="styled-dropdown">
+                            <option value="english">English</option>
+                            <option value="hindi">Hindi</option>
+                            <option value="punjabi">Punjabi</option>
+                            <option value="spanish">Spanish</option>
+                            <option value="korean">Korean</option>
+                        </select>
+                    </div>
                 </div>
-            </div>
 
-            <div class="slider-container">
-                <label for="energy-slider">Energy Level</label>
-                <div class="slider-with-labels">
-                    <span class="slider-label">Low</span>
-                    <input type="range" min="0" max="10" value="5" id="energy-slider" class="styled-slider">
-                    <span class="slider-label">High</span>
+                <button id="submit-btn" class="styled-button">
+                    <i class="fas fa-headphones"></i> Create My Playlist
+                </button>
+            </section>
+
+            <!-- Playlist Results -->
+            <section id="playlist-results" class="playlist-results">
+                <div class="results-placeholder">
+                    <i class="fas fa-music"></i>
+                    <p>Your personalized playlist will appear here</p>
                 </div>
-            </div>
-
-            <div class="slider-container">
-                <label for="stress-slider">Stress Level</label>
-                <div class="slider-with-labels">
-                    <span class="slider-label">Low</span>
-                    <input type="range" min="0" max="10" value="5" id="stress-slider" class="styled-slider">
-                    <span class="slider-label">High</span>
+                
+                <!-- Embedded Player Section -->
+                <div id="player-container" class="hidden">
+                    <h3>Preview Your Playlist</h3>
+                    <div class="player-controls">
+                        <button id="prev-track" class="player-button"><i class="fas fa-step-backward"></i></button>
+                        <button id="play-pause" class="player-button"><i class="fas fa-play"></i></button>
+                        <button id="next-track" class="player-button"><i class="fas fa-step-forward"></i></button>
+                    </div>
+                    <div class="progress-container">
+                        <span id="current-time">0:00</span>
+                        <input type="range" id="progress-bar" class="styled-slider" value="0">
+                        <span id="duration">0:00</span>
+                    </div>
+                    <div class="volume-control">
+                        <i class="fas fa-volume-down"></i>
+                        <input type="range" id="volume-control" class="styled-slider" min="0" max="100" value="70">
+                        <i class="fas fa-volume-up"></i>
+                    </div>
+                    <a id="spotify-link" href="#" target="_blank" class="spotify-button">
+                        <i class="fab fa-spotify"></i> Open in Spotify
+                    </a>
                 </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            <p class="disclaimer">
+                <i class="fas fa-info-circle"></i> Playlist generation may take up to 50 seconds
+            </p>
+            <div class="footer-links">
+                <button id="connect-spotify" class="footer-link">
+                    <i class="fab fa-spotify"></i> Connect Spotify
+                </button>
+                <button id="help-button" class="footer-link">
+                    <i class="fas fa-question-circle"></i> Help
+                </button>
+                <button id="settings-button" class="footer-link">
+                    <i class="fas fa-cog"></i> Settings
+                </button>
             </div>
-
-            <div class="slider-container">
-                <label for="focus-slider">Need for Focus</label>
-                <div class="slider-with-labels">
-                    <span class="slider-label">Low</span>
-                    <input type="range" min="0" max="10" value="5" id="focus-slider" class="styled-slider">
-                    <span class="slider-label">High</span>
-                </div>
-            </div>
-
-            <div class="slider-container">
-                <label for="social-slider">Social Interaction</label>
-                <div class="slider-with-labels">
-                    <span class="slider-label">Low</span>
-                    <input type="range" min="0" max="10" value="5" id="social-slider" class="styled-slider">
-                    <span class="slider-label">High</span>
-                </div>
-            </div>
-
-            <div class="slider-container">
-                <label for="music-preference-slider">Music Preference</label>
-                <div class="slider-with-labels">
-                    <span class="slider-label">Low Beats</span>
-                    <input type="range" min="0" max="10" value="5" id="music-preference-slider" class="styled-slider">
-                    <span class="slider-label">High Beats</span>
-                </div>
-            </div>
-
-            <div class="slider-container">
-                <label for="emotional-balance-slider">Emotional Balance</label>
-                <div class="slider-with-labels">
-                    <span class="slider-label">Low</span>
-                    <input type="range" min="0" max="10" value="5" id="emotional-balance-slider" class="styled-slider">
-                    <span class="slider-label">High</span>
-                </div>
-            </div>
-
-            <!-- Retained Dropdowns -->
-            <label for="weather-dropdown">Weather Influence</label>
-            <select id="weather-dropdown" class="styled-dropdown">
-                <option value="none">Not at all</option>
-                <option value="low">Low</option>
-                <option value="moderate">Moderate</option>
-                <option value="high">High</option>
-            </select>
-
-            <label for="time-dropdown">Time of Day</label>
-            <select id="time-dropdown" class="styled-dropdown">
-                <option value="morning">Morning</option>
-                <option value="afternoon">Afternoon</option>
-                <option value="evening">Evening</option>
-                <option value="night">Night</option>
-            </select>
-
-            <!-- New Language Selector Dropdown -->
-            <div class="slider-container">
-                <label for="language-dropdown">Select Song Language:</label>
-                <select id="language-dropdown" class="styled-dropdown">
-                    <option value="english">English</option>
-                    <option value="hindi">Hindi</option>
-                    <option value="punjabi">Punjabi</option>
-                </select>
-            </div>
-
-            <!-- Submit Button -->
-            <button id="submit-btn" class="styled-button">Get Playlist</button>
-        </div>
-
-        <!-- Playlist Results -->
-        <div id="playlist-results"></div>
-
-        <div class="disclaimer">
-            <p>Disclaimer: It may take upto 50 seconds to fetch the playlist. </p>
-        </div>
+        </footer>
     </div>
-
-    
 
     <script src="script.js"></script>
 </body>

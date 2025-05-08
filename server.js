@@ -117,7 +117,7 @@ function getMoodKeyword(energy, stress, intensity, emotionalSpectrum, weather, t
     } else if (energy < 4 && stress > 7 && intensity < 4) {
         return 'calm';
     } else if (energy < 3 && stress > 8) {
-        return 'burnt out';
+        return 'Exhausted';
     } else if (weather === 'high' && emotionalSpectrum > 6) {
         return 'excited';
     } else if (emotionalSpectrum < 3 && intensity > 7) {
